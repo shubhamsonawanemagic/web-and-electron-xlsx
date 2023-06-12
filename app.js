@@ -68,6 +68,15 @@ fileInput.addEventListener("change", function () {
 
     // Enable/disable the Download button based on selected checkboxes
     updateDownloadButton();
+
+    // Clear error log message and link
+    const errorLogContainer = document.getElementById("errorLogContainer");
+    errorLogContainer.textContent = "";
+
+    const existingErrorLogLink = document.querySelector(".error-log-link");
+    if (existingErrorLogLink) {
+      existingErrorLogLink.remove();
+    }
   };
 
   reader.readAsArrayBuffer(file);
@@ -288,17 +297,20 @@ function convertToJSON() {
         const div = document.createElement("div");
         div.className = "download-link";
 
-        // const successMessage = document.createElement("span");
-        successMessage.textContent = `${sheetName}.json Converted successfully`;
-        // successMessage.style.color = "green";
-        // successMessage.style.marginRight = "5px"; // Adjust the margin as needed
-        // successMessage.style.display = "block";
-        // successMessage.style.verticalAlign = "middle";
-        // successMessage.className = `download-link-${sheetName}`;
+        // Add success message
+        const successMessage = document.createElement("span");
+        successMessage.textContent = `${sheetName} Converted successfully`;
+        successMessage.style.color = "green";
+        successMessage.style.marginRight = "5px"; // Adjust the margin as needed
+        successMessage.style.display = "inline-block";
+        successMessage.style.verticalAlign = "middle";
+        successMessage.className = `download-link-${sheetName}`;
 
-        sheetCheckboxContainer.insertBefore(successMessage, anchor.nextSibling);
+        div.appendChild(successMessage);
+        div.appendChild(anchor);
 
-        document.body.appendChild(anchor);
+        const container = document.getElementById("downloadLinksContainer"); // Get the separate container element
+        container.appendChild(div);
 
         convertedSheets.push(sheetName);
       } else {
