@@ -97,53 +97,42 @@
       }
 
       .download-link-Sheet1 {
-        position: absolute;
         color: green;
         margin-right: 5px;
-        top: 250px;
-        left: 138px;
         display: block;
         vertical-align: middle;
       }
 
       .download-link-Sheet2 {
-        position: absolute;
         color: green;
         margin-right: 5px;
-        top: 270px;
-        left: 138px;
         display: block;
         vertical-align: middle;
       }
 
       .download-link-Sheet3 {
-        position: absolute;
         color: green;
         margin-right: 5px;
-        top: 290px;
-        left: 138px;
         display: block;
         vertical-align: middle;
       }
 
       .download-link-Sheet4 {
-        position: absolute;
         color: green;
         margin-right: 5px;
-        top: 310px;
-        left: 138px;
         display: block;
         vertical-align: middle;
       }
 
       .download-link-manuscript3 {
-        position: absolute;
         color: green;
         margin-right: 5px;
-        top: 290px;
-        left: 138px;
         display: block;
         vertical-align: middle;
+      }
+
+      #downloadLinksContainer {
+        margin-bottom: 30px;
       }
     </style>
   </head>
@@ -167,8 +156,8 @@
       <span id="progressPercentage">0%</span>
     </div>
     <div id="successMessage"></div>
+    <div id="downloadLinksContainer"></div>
     <div id="errorLogContainer"></div>
-
     <button id="selectAllBtn" disabled="true" title="Select All">
       Select All
     </button>
@@ -179,7 +168,6 @@
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script src="https://unpkg.com/file-saver"></script>
     <script src="app.js"></script>
-    <div id="downloadLinksContainer"></div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
