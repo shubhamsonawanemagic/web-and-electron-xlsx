@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+}
+
+.file-container {
+  width: 60%;
+  padding: 20px;
+}
+
+.checkbox-container {
+  width: 40%;
+  overflow-y: auto;
+  max-height: 500px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.checkbox-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#errorLogContainer {
+  margin-top: 10px;
+  white-space: pre-line;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+#errorLogContainer a {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#errorLogContainer p {
+  margin: 0;
+  white-space: pre-wrap;
+}

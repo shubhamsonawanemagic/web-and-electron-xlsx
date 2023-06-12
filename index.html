@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>XLSX to JSON Converter</title>
+    <style>
+      .container {
+        display: flex;
+      }
+
+      .file-container {
+        width: 60%;
+        padding: 20px;
+      }
+
+      #xlsxFile {
+      }
+
+      #convertBtn {
+        top: 130px;
+        position: absolute;
+        left: 27px;
+        background-color: #6495ed;
+        color: white;
+        border: none;
+      }
+
+      #downloadBtn {
+        top: 130px;
+        position: absolute;
+        left: 170px;
+        background-color: #6495ed;
+        color: white;
+        border: none;
+      }
+
+      #selectAllBtn {
+        top: 180px;
+        position: absolute;
+        left: 27px;
+        background-color: #6495ed;
+        color: white;
+        border: none;
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      #clearBtn {
+        top: 180px;
+        position: absolute;
+        left: 170px;
+        background-color: #6495ed;
+        color: white;
+        border: none;
+      }
+
+      .disabled-button {
+        opacity: 0.6;
+        pointer-events: none;
+        /* Add any other styling you want for disabled buttons */
+      }
+
+      #progressMessage {
+        width: 40%;
+        /* position: absolute;
+      top: 40px;
+      left: 550px; */
+        overflow-y: auto;
+        padding: 20px;
+      }
+
+      #conversionProgress {
+        position: absolute;
+        top: 60px;
+        left: 530px;
+      }
+
+      #progressPercentage {
+        position: absolute;
+        top: 60px;
+        left: 700px;
+      }
+
+      .checkbox-container {
+        width: 40%;
+        overflow-y: auto;
+        max-height: 500px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .checkbox-label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .download-link-Sheet1 {
+        position: absolute;
+        color: green;
+        margin-right: 5px;
+        top: 250px;
+        left: 138px;
+        display: block;
+        vertical-align: middle;
+      }
+
+      .download-link-Sheet2 {
+        position: absolute;
+        color: green;
+        margin-right: 5px;
+        top: 270px;
+        left: 138px;
+        display: block;
+        vertical-align: middle;
+      }
+
+      .download-link-Sheet3 {
+        position: absolute;
+        color: green;
+        margin-right: 5px;
+        top: 290px;
+        left: 138px;
+        display: block;
+        vertical-align: middle;
+      }
+
+      .download-link-Sheet4 {
+        position: absolute;
+        color: green;
+        margin-right: 5px;
+        top: 310px;
+        left: 138px;
+        display: block;
+        vertical-align: middle;
+      }
+
+      .download-link-manuscript3 {
+        position: absolute;
+        color: green;
+        margin-right: 5px;
+        top: 290px;
+        left: 138px;
+        display: block;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <h3 style="display: flex; align-items: center; justify-content: center">
+      XLSX to JSON Converter
+    </h3>
+
+    <div class="container">
+      <div class="file-container">
+        <input type="file" id="xlsxFile" accept=".xlsx" />
+        <button id="convertBtn" title="Convert to JSON">Convert to JSON</button>
+        <!-- <button id="downloadBtn" disabled>Download JSON</button> -->
+      </div>
+      <div class="checkbox-container" id="sheetCheckboxContainer"></div>
+    </div>
+
+    <div class="progress-container">
+      <p id="progressMessage"></p>
+      <progress id="conversionProgress" value="0" max="100"></progress>
+      <span id="progressPercentage">0%</span>
+    </div>
+    <div id="successMessage"></div>
+    <div id="errorLogContainer"></div>
+
+    <button id="selectAllBtn" disabled="true" title="Select All">
+      Select All
+    </button>
+    <button id="clearBtn" disabled="true" title="Clear">Clear</button>
+
+    <script src="download/to/FileSaver.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/file-saver"></script>
+    <script src="app.js"></script>
+    <div id="downloadLinksContainer"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Select All Button
+        const selectAllBtn = document.getElementById("selectAllBtn");
+
+        // Clear Button
+        const clearBtn = document.getElementById("clearBtn");
+
+        // Checkbox Event Listener
+        const checkboxes = document.querySelectorAll(
+          "#sheetCheckboxContainer input[type='checkbox']"
+        );
+        checkboxes.forEach(function (checkbox) {
+          checkbox.addEventListener("change", function () {
+            const checkedCount = document.querySelectorAll(
+              "#sheetCheckboxContainer input[type='checkbox']:checked"
+            ).length;
+            selectAllBtn.disabled = checkedCount === checkboxes.length;
+            clearBtn.disabled = checkedCount === 0;
+          });
+        });
+
+        // Select All Button Event Listener
+        selectAllBtn.addEventListener("click", function () {
+          checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+          });
+          selectAllBtn.disabled = true;
+          clearBtn.disabled = false;
+        });
+
+        // Clear Button Event Listener
+        clearBtn.addEventListener("click", function () {
+          checkboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+          });
+          selectAllBtn.disabled = false;
+          clearBtn.disabled = true;
+        });
+      });
+    </script>
+  </body>
+</html>
