@@ -134,9 +134,28 @@ function generateErrorLog(invalidCellInfo) {
 
   invalidCellInfo.forEach((errorInfo) => {
     errorLogMessage += `Sheet: ${errorInfo.sheet}\n`;
-    errorLogMessage += `Column: ${errorInfo.column}\n`;
+    errorLogMessage += `Cell: ${errorInfo.column}${errorInfo.row}\n`;
+
+    errorInfo.reason.forEach((reason) => {
+      if (reason.startsWith("Contains invalid special character(s)")) {
+        const regex = /(?<=\[).+?(?=\])/g; // Extract invalid special characters between square brackets
+        const matches = reason.match(regex);
+        if (matches) {
+          const invalidCharacters = matches.join(", ");
+          const exampleSentence = reason.match(/(?<=Example: ).+/g); // Extract the example sentence after "Example: "
+          reason += ` (Invalid Characters: ${invalidCharacters}, Example: ${exampleSentence})`;
+        }
+      } else if (reason.startsWith("Exceeds maximum length")) {
+        const maxLengthSentence = reason.match(/(?<=\').+?(?=\')/g); // Extract the maximum length sentence between single quotes
+        reason += ` (Max length sentence: ${maxLengthSentence})`;
+      }
+
+      errorLogMessage += `Reason: ${reason}\n`;
+    });
+
     errorLogMessage += `Row: ${errorInfo.row}\n`;
-    errorLogMessage += `Reasons: ${errorInfo.reason.join(", ")}\n\n`;
+    errorLogMessage += `Column: ${errorInfo.column}\n`;
+    errorLogMessage += `-------------------------\n`; // Add separator between cells
   });
 
   const errorLogContent = errorLogMessage;
@@ -157,9 +176,9 @@ function generateErrorLog(invalidCellInfo) {
 
   invalidCellInfo.forEach((errorInfo) => {
     const errorMessage = document.createElement("p");
-    errorMessage.textContent = `Sheet: ${errorInfo.sheet} | Column: ${
+    errorMessage.textContent = `Sheet: ${errorInfo.sheet} | Cell: ${
       errorInfo.column
-    } | Row: ${errorInfo.row} | Reasons: ${errorInfo.reason.join(", ")}`;
+    }${errorInfo.row} | Reasons: ${errorInfo.reason.join(", ")}`;
     errorLogContainer.appendChild(errorMessage);
   });
 }
