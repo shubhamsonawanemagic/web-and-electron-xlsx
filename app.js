@@ -108,7 +108,8 @@ function hasMathFormula(cellValue, allowedFormulas) {
     return false;
   }
 
-  const formulaPattern = /^=([A-Z]+)\(/;
+  const formulaPattern = /^=/;
+  // const formulaPattern = /^=([A-Z]+)\(/;
   const matches = cellValue.match(formulaPattern);
   if (matches && matches.length > 1) {
     const formula = matches[1];
@@ -153,6 +154,7 @@ function generateErrorLog(invalidCellInfo) {
       errorLogMessage += `Reason: ${reason}\n`;
     });
 
+    errorLogMessage += `Value: ${errorInfo.value}\n`;
     errorLogMessage += `Row: ${errorInfo.row}\n`;
     errorLogMessage += `Column: ${errorInfo.column}\n`;
     errorLogMessage += `-------------------------\n`; // Add separator between cells
@@ -178,7 +180,9 @@ function generateErrorLog(invalidCellInfo) {
     const errorMessage = document.createElement("p");
     errorMessage.textContent = `Sheet: ${errorInfo.sheet} | Cell: ${
       errorInfo.column
-    }${errorInfo.row} | Reasons: ${errorInfo.reason.join(", ")}`;
+    }${errorInfo.row} | Reasons: ${errorInfo.reason.join(", ")} | Value: ${
+      errorInfo.value
+    }`;
     errorLogContainer.appendChild(errorMessage);
   });
 }
