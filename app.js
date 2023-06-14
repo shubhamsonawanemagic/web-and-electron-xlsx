@@ -258,16 +258,20 @@ function convertToJSON() {
         "g"
       );
 
-      const jsonSheetData = {
-        sheetName: sheetName,
-        data: sheetData,
-      };
-
-      jsonArray.push(jsonSheetData);
-
       let hasErrors = false;
 
+      var newJson = JSON.parse(JSON.stringify(sheetData[0]));
+      var currKey = "";
+
       sheetData.forEach((row, rowIndex) => {
+        if (!row.definition) {
+          currKey = row["key term"];
+        } else {
+          if (!newJson[currKey]) {
+            newJson[currKey] = [];
+          }
+          newJson[currKey].push(row);
+        }
         for (const key in row) {
           const cellValue = row[key];
 
@@ -303,6 +307,11 @@ function convertToJSON() {
         }
       });
 
+      const jsonSheetData = {
+        sheetName: sheetName,
+        data: newJson,
+      };
+      jsonArray.push(jsonSheetData);
       if (!hasErrors) {
         const jsonContent = JSON.stringify(jsonSheetData, null, 2);
         const blob = new Blob([jsonContent], { type: "application/json" });
