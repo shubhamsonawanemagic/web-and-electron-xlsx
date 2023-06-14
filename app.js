@@ -180,9 +180,7 @@ function generateErrorLog(invalidCellInfo) {
     const errorMessage = document.createElement("p");
     errorMessage.textContent = `Sheet: ${errorInfo.sheet} | Cell: ${
       errorInfo.column
-    }${errorInfo.row} | Reasons: ${errorInfo.reason.join(", ")} | Value: ${
-      errorInfo.value
-    }`;
+    }${errorInfo.row} | Reasons: ${errorInfo.reason.join(", ")}`;
     errorLogContainer.appendChild(errorMessage);
   });
 }
